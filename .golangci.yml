@@ -1,0 +1,22 @@
+run:
+  go: "1.21"
+
+linters:
+  enable:
+    # golangci-lint defaults (essential for code correctness)
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - unused
+    # Go Report Card requirements
+    - gofmt
+    - gocyclo
+    - misspell
+    - revive  # successor of deprecated golint
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15  # Go Report Card standard
