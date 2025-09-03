@@ -45,12 +45,13 @@ func Query(ctx context.Context, prompt string, options *Options) ([]Message, err
 	}
 
 	// Send prompt to stdin and close it
-	go func() {
-		defer stdin.Close()
-		if _, writeErr := stdin.Write([]byte(prompt)); writeErr != nil {
-			return
+	if _, writeErr := stdin.Write([]byte(prompt)); writeErr != nil {
+		return nil, &CLIConnectionError{
+			Message: "failed to write prompt to stdin",
+			Cause:   err,
 		}
-	}()
+	}
+	defer stdin.Close()
 
 	messages, err := readOutput(stdout, options)
 	if err != nil {
