@@ -1,3 +1,3 @@
-module github.com/yukifoo/claude-code-sdk-go
+module github.com/kannae97/claude-code-sdk-go
 
 go 1.21
