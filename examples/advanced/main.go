@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	claudecode "github.com/yukifoo/claude-code-sdk-go"
+	claudecode "github.com/kannae97/claude-code-sdk-go"
 )
 
 func main() {
@@ -16,20 +16,20 @@ func main() {
 	fmt.Println("=== Example 1: MCP Configuration ===")
 	fmt.Println("Note: This example demonstrates MCP configuration but is commented out")
 	fmt.Println("To use MCP features, create mcp-servers.json and uncomment the code below")
-	
+
 	// Example MCP request (commented out to avoid errors when MCP is not configured)
 	_ = claudecode.QueryRequest{
 		Prompt: "Use filesystem tools to analyze the project structure",
 		Options: &claudecode.Options{
-			MaxTurns:            intPtr(5),
-			AllowedTools:        []string{"mcp__filesystem__read_file", "mcp__filesystem__list_directory"},
-			MCPConfig:           stringPtr("mcp-servers.json"),
+			MaxTurns:             intPtr(5),
+			AllowedTools:         []string{"mcp__filesystem__read_file", "mcp__filesystem__list_directory"},
+			MCPConfig:            stringPtr("mcp-servers.json"),
 			PermissionPromptTool: stringPtr("mcp__permissions__approve"),
-			OutputFormat:        outputFormatPtr(claudecode.OutputFormatJSON),
-			Verbose:             boolPtr(true),
+			OutputFormat:         outputFormatPtr(claudecode.OutputFormatJSON),
+			Verbose:              boolPtr(true),
 		},
 	}
-	
+
 	// messages, err := claudecode.QueryWithRequest(ctx, mcpRequest)
 	// if err != nil {
 	//     log.Printf("MCP query failed (expected if MCP not configured): %v", err)
@@ -39,7 +39,7 @@ func main() {
 
 	// Example 2: Session resumption and continuation
 	fmt.Println("\n=== Example 2: Session Management ===")
-	
+
 	// Start a new session
 	initialRequest := claudecode.QueryRequest{
 		Prompt: "Create a simple Go function that calculates fibonacci numbers",
@@ -104,7 +104,7 @@ func main() {
 
 	fmt.Println("Starting analysis with tool restrictions...")
 	messageChan, errorChan := claudecode.QueryStreamWithRequest(ctx, restrictedRequest)
-	
+
 	messageCount := 0
 	for {
 		select {
@@ -113,10 +113,10 @@ func main() {
 				fmt.Printf("Analysis completed. Processed %d messages.\n", messageCount)
 				goto nextExample
 			}
-			
+
 			messageCount++
 			fmt.Printf("📊 Analysis Message %d (%s)\n", messageCount, message.Type())
-			
+
 			for _, block := range message.Content() {
 				switch b := block.(type) {
 				case *claudecode.TextBlock:
@@ -150,7 +150,7 @@ func main() {
 nextExample:
 	// Example 4: Different output formats comparison
 	fmt.Println("\n=== Example 4: Output Format Comparison ===")
-	
+
 	formats := []claudecode.OutputFormat{
 		claudecode.OutputFormatText,
 		claudecode.OutputFormatJSON,
@@ -159,7 +159,7 @@ nextExample:
 
 	for _, format := range formats {
 		fmt.Printf("\n--- Testing %s format ---\n", format)
-		
+
 		formatRequest := claudecode.QueryRequest{
 			Prompt: "List the Go files in this project",
 			Options: &claudecode.Options{
@@ -176,7 +176,7 @@ nextExample:
 		}
 
 		fmt.Printf("Format %s: Received %d messages\n", format, len(messages))
-		
+
 		// Show first message content for comparison
 		if len(messages) > 0 {
 			content := messages[0].Content()

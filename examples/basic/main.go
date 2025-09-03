@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	claudecode "github.com/yukifoo/claude-code-sdk-go"
+	claudecode "github.com/kannae97/claude-code-sdk-go"
 )
 
 func main() {
@@ -36,10 +36,10 @@ func main() {
 func processMessages(messages []claudecode.Message) {
 	for i, message := range messages {
 		fmt.Printf("--- Message %d (%s) ---\n", i+1, message.Type())
-		
+
 		for j, block := range message.Content() {
 			fmt.Printf("Content Block %d (%s):\n", j+1, block.Type())
-			
+
 			switch b := block.(type) {
 			case *claudecode.TextBlock:
 				fmt.Printf("Text: %s\n", b.Text)
